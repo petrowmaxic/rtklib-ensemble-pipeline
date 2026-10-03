@@ -129,6 +129,31 @@ Managed by `scripts/gnss_meta.py` (`resolve`, `read-anchor`, `read-base`,
 BSD 2-Clause -- see [LICENSE](LICENSE). Compatible with RTKLIB-EX, which
 uses the same license.
 
+## Roadmap
+
+**Short term**
+- `batch_ensemble.sh` through `gnss_meta.py` (remove hardcoded paths).
+- CI: Python syntax check + shellcheck on push.
+
+**Mid term (v1.5.x)**
+- Interactive HTML report (`plot_summary.py`) -- finalize once the required
+  comparison set is defined.
+- Multi-base and multi-area support: reference-network bases (when a local
+  base is unavailable) -- currently manual.
+- Confidence demotion (Q1 -> Q2) for ambiguous fixes. Criterion (MAD-based
+  `k = Delta / MAD > 50`, with run-length filter) shows 82 % detection at
+  0 % false positive on control projects. On hold until hold-out validation
+  on 10+ new projects.
+
+**Long term (v2.0)**
+- Global refactor: `numpy` / `scipy` / `sklearn` instead of pure Python.
+- Paper / article on methodology: flight segmentation, split
+  horizontal/vertical jump check, Viterbi ensemble for AR recovery.
+
+**Not planned**
+- Interactive GUI. `pipeline.sh` (interactive) and `batch_ensemble.sh`
+  (batch) cover the workflows.
+
 ## Acknowledgments
 
 - Tomoji Takasu -- RTKLIB
