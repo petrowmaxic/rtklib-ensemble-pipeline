@@ -1,0 +1,26 @@
+# Глоссарий
+
+- **Q1** — эпоха с фиксированной неоднозначностью. НЕ равно «правильная координата» (см. false fix rate).
+- **Q2** — эпоха в float-режиме.
+- **Q4** — DGPS-решение.
+- **Fix** = Q1.
+- **Float** = Q2.
+- **ARTK** — Adaptive RTK (NovAtel).
+- **ARTK REWIND** — механизм GrafNav: возврат назад после fix.
+- **IFB** — Inter-Frequency Bias.
+- **DD_DOP** — Double-Difference DOP, PDOP × 2.
+- **Anchor** — координата площадки.
+- **Viterbi** — динамическое программирование для оптимального пути.
+- **Ensemble** — 8 прогонов RTKLIB.
+- **Baseline** — расстояние база-ровер.
+- **RINEX** — Receiver Independent Exchange Format.
+- **GPB** — Waypoint Binary Format.
+- **XYZ** — формат Oasis Montaj.
+- **L1, L2** — частоты GPS (1575.42, 1227.60 МГц).
+- **PDOP, HDOP, VDOP** — Dilution of Precision.
+- **u-blox** — производитель базы.
+- **NovAtel** — производитель ровера.
+- **OEMStar / OEM7** — модели приёмников.
+- **Phase Reset** — механизм RTKLIB-EX для восстановления AR.
+- **elmask** — маска элевации (минимум градусов над горизонтом).
+- **soltype** — тип решения: forward / backward / combined.

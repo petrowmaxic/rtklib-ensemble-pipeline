@@ -1,0 +1,4 @@
+# Python 3.9+
+# Основной пайплайн: только stdlib (Python 3)
+# Опционально (для plot_summary.py — экспериментальный, не в production):
+plotly>=7.0.0

@@ -1,0 +1,19 @@
+# Служебное
+.DS_Store
+__pycache__/
+*.pyc
+*.bak_*
+*.tmp
+*.legacy
+
+# Рабочие директории
+cache/
+logs/
+00_original/
+03_processing/
+04_comparison/
+05_export/
+scripts/_archive/
+
+# Документы, которые могут быть исключены
+# (оставляем docs/ как есть)

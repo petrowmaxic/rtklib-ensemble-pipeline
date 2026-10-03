@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>@@TITLE@@</title>
+@@PLOTLY_LIB@@
+<style>
+  body { font-family: -apple-system, system-ui, sans-serif; margin: 0; padding: 0; color: #222; }
+  .header { padding: 10px 16px; background: #2c3e50; color: #fff; }
+  .header h1 { margin: 0; font-size: 17px; font-weight: 600; }
+  .header .meta { font-size: 11px; opacity: 0.8; margin-top: 4px; font-family: monospace; }
+  .tabs { display: flex; background: #34495e; padding: 0 16px; flex-wrap: wrap; }
+  .tab { padding: 8px 14px; cursor: pointer; color: #bdc3c7;
+         border-bottom: 2px solid transparent; font-size: 13px; user-select: none; }
+  .tab.active { color: #fff; border-bottom-color: #3498db; }
+  .tab:hover { color: #fff; }
+  .content { padding: 12px 16px; }
+  .panel { margin-bottom: 12px; border: 1px solid #ddd; border-radius: 4px; overflow: hidden; }
+  .panel-title { padding: 5px 10px; background: #f5f5f5; font-size: 12px; font-weight: 600; }
+  .panel-body { height: 260px; }
+  .annotation { padding: 8px 10px; font-size: 11px; color: #444; background: #fafafa;
+                border: 1px solid #ddd; border-radius: 4px; font-family: monospace;
+                white-space: pre-wrap; }
+  .empty { padding: 40px; text-align: center; color: #888; font-size: 14px; }
+  .ann-table { border-collapse: collapse; font-family: monospace; font-size: 11px; }
+  .ann-table td { padding: 2px 10px; border-bottom: 1px solid #eee; }
+  .ann-key { color: #666; text-align: right; }
+  .ann-val { font-weight: 600; color: #222; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>@@TITLE@@</h1>
+  <div class="meta">@@META@@</div>
+</div>
+<div class="tabs" id="tabs"></div>
+<div class="content" id="content"></div>
+<script>
+var DATA = @@DATA@@;
+var content = document.getElementById('content');
+var tabs = document.getElementById('tabs');
+
+function showTab(i) {
+  var btns = document.querySelectorAll('.tab');
+  for (var j = 0; j < btns.length; j++) {
+    btns[j].classList.toggle('active', i === j);
+  }
+  content.innerHTML = '';
+  var tab = DATA.tabs[i];
+  for (var pi = 0; pi < tab.panels.length; pi++) {
+    var panel = tab.panels[pi];
+    var el = document.createElement('div');
+    el.className = 'panel';
+    var title = document.createElement('div');
+    title.className = 'panel-title';
+    title.textContent = panel.title;
+    el.appendChild(title);
+    var body = document.createElement('div');
+    body.className = 'panel-body';
+    body.id = 'panel_' + pi;
+    el.appendChild(body);
+    content.appendChild(el);
+    var layout = {
+      margin: { l: 55, r: 20, t: 10, b: 32 },
+      yaxis: { title: panel.yaxis_title, titlefont: { size: 11 }, tickfont: { size: 10 } },
+      xaxis: { title: 'время, сек от старта', titlefont: { size: 11 }, tickfont: { size: 10 } },
+      shapes: panel.shapes || [],
+      showlegend: true,
+      legend: { x: 1, y: 1, xanchor: 'right', yanchor: 'top',
+                bgcolor: 'rgba(255,255,255,0.85)', font: { size: 10 } },
+      height: 260,
+      hovermode: 'x unified'
+    };
+    Plotly.newPlot('panel_' + pi, panel.traces, layout,
+                   { displayModeBar: false, responsive: true });
+  }
+  if (tab.annotation) {
+    var a = document.createElement('div');
+    a.className = 'annotation';
+    a.appendChild(renderAnnotation(tab.annotation));
+    content.appendChild(a);
+  }
+}
+
+function renderAnnotation(obj) {
+  var table = document.createElement('table');
+  table.className = 'ann-table';
+  function addRow(k, v) {
+    var tr = document.createElement('tr');
+    var td1 = document.createElement('td');
+    td1.className = 'ann-key';
+    td1.textContent = k;
+    var td2 = document.createElement('td');
+    td2.className = 'ann-val';
+    if (typeof v === 'number') {
+      td2.textContent = v.toFixed(4);
+    } else {
+      td2.textContent = String(v);
+    }
+    tr.appendChild(td1);
+    tr.appendChild(td2);
+    table.appendChild(tr);
+  }
+  for (var k in obj) {
+    if (!obj.hasOwnProperty(k)) continue;
+    var v = obj[k];
+    if (v !== null && typeof v === 'object' && !Array.isArray(v)) {
+      for (var k2 in v) {
+        if (!v.hasOwnProperty(k2)) continue;
+        addRow(k + '.' + k2, v[k2]);
+      }
+    } else {
+      addRow(k, v);
+    }
+  }
+  return table;
+}
+
+if (!DATA.tabs || DATA.tabs.length === 0) {
+  content.innerHTML = '<div class="empty">Нет данных для отображения. ' +
+                      'Проверьте источники (result.pos, seg_*/).</div>';
+} else {
+  for (var i = 0; i < DATA.tabs.length; i++) {
+    var btn = document.createElement('div');
+    btn.className = 'tab' + (i === 0 ? ' active' : '');
+    btn.textContent = DATA.tabs[i].name;
+    btn.setAttribute('data-idx', i);
+    btn.onclick = (function (idx) { return function () { showTab(idx); }; })(i);
+    tabs.appendChild(btn);
+  }
+  showTab(0);
+}
+</script>
+</body>
+</html>

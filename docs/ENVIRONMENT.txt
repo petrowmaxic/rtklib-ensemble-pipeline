@@ -1,0 +1,31 @@
+# Environment for reproduction
+
+## Hardware
+- MacBook Pro M-series, 10 ядер, 16 ГБ RAM
+
+## OS
+- macOS 26 (Darwin 25.x), Apple Silicon arm64
+
+## RTKLIB-EX (demo5)
+- Версия: 2.5.1
+- Репозиторий: github.com/rtklibexplorer/RTKLIB
+- SHA коммита: не зафиксирован (упущение)
+- Дата сборки: 2026-08-15
+- Флаги: -DENAGLO -DENAGAL -DENACMP -DNFREQ=5
+
+## Бинарники (SHA256)
+4f4a4883ce1d36ae0923b59361db6fc29039b8e6415a2df81f89685d20d2f092  convbin_EX
+ba91d5748558bae74a0dec348a3da0eb47f294ac64f9ddbc73933a8b0e9083b6  rnx2rtkp_EX
+a08db923138cbcdc6463ab5d4f0e2e9a1d10e38a159e5348b235781c4b6c90ad  librtklib.dylib
+
+## NovAtel Convert
+- Версия: 2.2 (через CrossOver 26.1)
+
+## Python
+- 3.12.9 (stdlib only)
+
+## GrafNav (эталон сравнения)
+- 8.70.5101
+
+## Все anchor Julietta
+См. conf/ANCHOR_*.txt (14 файлов)
